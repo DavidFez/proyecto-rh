@@ -3,5 +3,5 @@
 
 @section('contenido')
     
-
+    <!-- Seccion para el html que necesite para las vistas -->
 @endsection

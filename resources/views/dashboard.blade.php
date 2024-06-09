@@ -35,10 +35,10 @@
         <!-- El de sweet alert -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        <!-- Boostrap -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
+        <!-- Boostrap 
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        -->
 
     <!-- --------------------------------------------------------------------------------------------- -->
 
@@ -73,17 +73,30 @@
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
+
                     <a href="index.html" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Inicio</a>
+
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Reclutamiento</a>
                         <div class="dropdown-menu bg-transparent border-0">
         
-                            <a href="typography.html" class="dropdown-item">Ver Candidatos</a>
-                            <a href="element.html" class="dropdown-item">Vancantes</a>
+                            <a href="#" class="dropdown-item">Ver Candidatos</a>
+                            <a href="#" class="dropdown-item">Vancantes</a>
 
                         </div>
                     </div>
-                    <a href="#" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Nominas</a>
+
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-th me-2"></i>Nomina</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+        
+                            <a href="#" class="dropdown-item">Gestion Cargo</a>
+                            <a href="#" class="dropdown-item">Gestion Empleados</a>
+                            <a href="#" class="dropdown-item">Gestion Boletas de Pago</a>
+                            <a href="#" class="dropdown-item">Gestion de Nomina</a>
+
+                        </div>
+                    </div>
                 
                     <a href="form.html" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Asuetos</a>
                     <a href="table.html" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>
