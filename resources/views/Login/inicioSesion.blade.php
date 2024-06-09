@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio de Sesión - Rock Burgers</title>
-    
+    <link rel="shortcut icon" href="{{ asset('iconoTBR/TheBurgerRock.ico') }}" type="image/x-icon">
+
     <link rel="stylesheet" href="{{asset('LoginCss/inicioSesion.css')}}">
 </head>
 <body>
     <div class="container">
-        <img src="logo.png" alt="Rock Burgers" class="logo">
+        <img src="{{ asset('images/TheBurgerRockLogo.png') }}" alt="Rock Burgers" class="logo">
         <h1>Inicio de Sesión</h1>
         <form action="{{route('iniciarSesionAdmin')}}" method="post">
             @csrf
