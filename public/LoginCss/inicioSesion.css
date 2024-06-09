@@ -33,10 +33,18 @@ h1 {
     width: calc(100% - 20px);
     padding: 10px;
     margin: 10px 0;
-    border: none;
+    border: 1px solid #ccc;
+    outline: none;
+    transition: border 0.3s;
     border-radius: 5px;
     font-size: 1em;
 }
+
+.input-group input:focus {
+    border: 1px solid #2196f3;
+    box-shadow: 0 0 10px rgba(33, 150, 243, 0.5);
+}
+
 .btn {
     display: inline-block;
     padding: 10px 20px;
