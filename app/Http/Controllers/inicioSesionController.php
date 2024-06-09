@@ -18,7 +18,7 @@ class inicioSesionController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->route('paginaPrincipal');
+            return redirect()->route('index');
         }
 
         //Manejar el error con una alerta, definir después
