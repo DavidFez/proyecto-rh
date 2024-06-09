@@ -9,7 +9,7 @@ body {
     margin: 0;
 }
 .container {
-    background: #2e2e2e;
+    background: #ffffff;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     width: 400px;
@@ -38,6 +38,7 @@ h1 {
     transition: border 0.3s;
     border-radius: 5px;
     font-size: 1em;
+    background-color: #000000;
 }
 
 .input-group input:focus {
