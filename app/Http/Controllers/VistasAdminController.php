@@ -14,5 +14,9 @@ class VistasAdminController extends Controller
         return view('VistasAdministrador.inicioAdmin');
     }
     
+    public function mostrarVistaDescriptor()
+    {
+        return view('descriptorPuestoTrabajo.descriptorPuesto');
+    }
 
 }
