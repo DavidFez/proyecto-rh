@@ -31,7 +31,7 @@ class inicioSesionController extends Controller
     public function cerrarSesion(Request $request){
 
         Auth::logout();
- 
+        
         $request->session()->invalidate();
     
         $request->session()->regenerateToken();

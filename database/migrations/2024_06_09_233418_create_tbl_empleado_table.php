@@ -21,13 +21,13 @@ return new class extends Migration
             $table->string('telefono', 15);
             $table->string('correo', 100)->nullable();
             $table->string('dui', 12);
+            $table->date('fechaIncorporacion');
             $table->text('cv')->nullable();
             $table->string('cuentaDeposito')->nullable();
             $table->string('banco')->nullable();
             $table->timestamps();
 
             $table->foreign('idCargo')->references('idCargo')->on('tbl_cargo');
-
         });
     }
 
