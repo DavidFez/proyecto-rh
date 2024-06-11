@@ -14,8 +14,6 @@ Route::resource('puestos', PuestoController::class);
 
 
 
-
-
 Route::post('/Admin-iniciar-sesion', [inicioSesionController::class, 'iniciarSesion'])->name('iniciarSesionAdmin');
 Route::post('/Admin-cerrar-sesion', [inicioSesionController::class, 'cerrarSesion'])->name('cerrarSesionAdmin');
 Route::view('/Admin-index', 'VistasAdministrador/inicioAdmin')->name('index');
@@ -32,3 +30,6 @@ Route::get('/Admin-bonificaciones.empleados', [VistasAdminController::class, 'ge
 
 Route::get('/Admin-gestion-asistencia', [VistasAdminController::class, 'gestionAsistencias'])->name('nominaGestionAsistencia');
 Route::get('/Admin-gestion-marcar-asistencia/{id}', [VistasAdminController::class, 'guardarAsistencia'])->name('nominaMarcarAsistencia');
+
+Route::get('Admin/descriptor', [PuestoController::class, 'index'])->name('descriptorPuesto');
+Route::get('Admin/evaluacion', [EvaluacionController::class, 'index'])->name('evaluacionPuesto');
