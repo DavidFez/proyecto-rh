@@ -40,6 +40,10 @@
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         -->
 
+        <!-- CDN para poder usar lo de darle formato al txto de crar anuncios ----------------------->
+        <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+        <!-- ---------------------------------------------------------------------------------------->
+
     <!-- --------------------------------------------------------------------------------------------- -->
 
     @yield('css')
@@ -90,10 +94,13 @@
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-th me-2"></i>Nomina</a>
                         <div class="dropdown-menu bg-transparent border-0">
         
-                            <a href="#" class="dropdown-item">Gestion Cargo</a>
-                            <a href="#" class="dropdown-item">Gestion Empleados</a>
-                            <a href="#" class="dropdown-item">Gestion Boletas de Pago</a>
-                            <a href="#" class="dropdown-item">Gestion de Nomina</a>
+                            <a href="{{ route('verGestionCargos') }}" class="dropdown-item">Gestion Cargo</a>
+                            <a href="{{ route('nominaGestionEmpleados') }}" class="dropdown-item">Gestion Empleados</a>
+                            <a href="{{ route('gestionNomina')}}" class="dropdown-item">Gestion Nomina</a>
+                            <a href="{{ route('nominaGestionPrestaciones') }}" class="dropdown-item">Prestaciones de ley</a>
+                            <a href="{{ route('nominaBonificaciones')}}" class="dropdown-item">Bonificaciones</a>
+                            
+                            
 
                         </div>
                     </div>
@@ -105,8 +112,23 @@
 
                         </div>
                     </div>
+
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-keyboard me-2"></i>Tiempo</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+        
+                            <a href="{{route('nominaGestionAsistencia')}}" class="dropdown-item">Asistencia</a>
+                            <a href="{{route('nominaGestionDescanso')}}" class="dropdown-item">Descansos</a>
+                            <a href="{{route('nominaGestionIncapacidades')}}" class="dropdown-item">Incapacidades</a>
+                            <a href="{{ route('gestionAsenciasSinJustificar')}}" class="dropdown-item">Ausencias Injustacadas</a>
+                            <a href="{{ route('ausenciasJustificadas')}}" class="dropdown-item">Ausencias Justificadas</a>
+                            <a href="{{ route('gestionVacaciones')}}" class="dropdown-item">Vacaciones por trabajador</a>
+
+
+
+                        </div>
+                    </div>
                 
-                    <a href="form.html" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Asuetos</a>
                     <a href="table.html" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>
                     <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
                     <div class="nav-item dropdown">
@@ -210,7 +232,12 @@
                         <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">My Profile</a>
                             <a href="#" class="dropdown-item">Settings</a>
-                            <a href="#" class="dropdown-item">Log Out</a>
+                            
+                            <form action="{{ route('cerrarSesionAdmin') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="dropdown-item">Cerrar Sesion</button>
+                            </form>
+
                         </div>
                     </div>
                 </div>
@@ -242,7 +269,8 @@
     <script src="{{ asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 
     <!-- Template Javascript -->
-    <script src="{{ asset('lib/main.js') }}"></script
+    <script src="{{ asset('lib/main.js') }}"></script>
+    @yield('jsVistasAdmin')
 </body>
 
 </html>
