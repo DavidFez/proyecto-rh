@@ -96,9 +96,11 @@
         
                             <a href="{{ route('verGestionCargos') }}" class="dropdown-item">Gestion Cargo</a>
                             <a href="{{ route('nominaGestionEmpleados') }}" class="dropdown-item">Gestion Empleados</a>
+                            <a href="{{ route('gestionNomina')}}" class="dropdown-item">Gestion Nomina</a>
                             <a href="{{ route('nominaGestionPrestaciones') }}" class="dropdown-item">Prestaciones de ley</a>
                             <a href="{{ route('nominaBonificaciones')}}" class="dropdown-item">Bonificaciones</a>
-                            <a href="#" class="dropdown-item">Gestion de Nomina</a>
+                            
+                            
 
                         </div>
                     </div>
@@ -115,10 +117,14 @@
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-keyboard me-2"></i>Tiempo</a>
                         <div class="dropdown-menu bg-transparent border-0">
         
-                            <a href="{{route('nominaGestionAsistencia')}}" class="dropdown-item">Aistencia</a>
-                            <a href="#" class="dropdown-item">Dias Laborados</a>
-                            <a href="#" class="dropdown-item">Incapacidades</a>
-                            <a href="#" class="dropdown-item"></a>
+                            <a href="{{route('nominaGestionAsistencia')}}" class="dropdown-item">Asistencia</a>
+                            <a href="{{route('nominaGestionDescanso')}}" class="dropdown-item">Descansos</a>
+                            <a href="{{route('nominaGestionIncapacidades')}}" class="dropdown-item">Incapacidades</a>
+                            <a href="{{ route('gestionAsenciasSinJustificar')}}" class="dropdown-item">Ausencias Injustacadas</a>
+                            <a href="{{ route('ausenciasJustificadas')}}" class="dropdown-item">Ausencias Justificadas</a>
+                            <a href="{{ route('gestionVacaciones')}}" class="dropdown-item">Vacaciones por trabajador</a>
+
+
 
                         </div>
                     </div>
@@ -263,7 +269,8 @@
     <script src="{{ asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 
     <!-- Template Javascript -->
-    <script src="{{ asset('lib/main.js') }}"></script
+    <script src="{{ asset('lib/main.js') }}"></script>
+    @yield('jsVistasAdmin')
 </body>
 
 </html>

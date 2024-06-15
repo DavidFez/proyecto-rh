@@ -1,11 +1,11 @@
 @extends('dashboard')
-@section('titulo', '- Asistencia')
+@section('titulo', '- Descanso')
 
 @section('contenido')
 
     <div class="container">
         <br>
-        <h2>Guardar Asistencia de los empleados</h2>
+        <h2>Marcar dis de descanso para el trabajador</h2>
         <hr>
         <br>
 
@@ -25,7 +25,7 @@
                     $numero = 1 
                 @endphp
 
-                @foreach ($empleadosAsistencias as $empleado)
+                @foreach ($empleadosDescanso as $empleado)
 
                     <tr>
                         <th scope="row">{{$numero}}</th>
@@ -33,7 +33,7 @@
                         <td>{{$empleado->cargo->nombreCargo}}</td>
                         <td>$ {{$empleado->telefono}}</td>
                         <td>
-                            <a href="{{route('nominaMarcarAsistencia', $empleado->idEmpleado)}}" class="btn btn-primary">Marcar Asistencia</a>
+                            <a href="{{route('nominaGuardarDescanso', $empleado->idEmpleado)}}" class="btn btn-primary">Marcar Descanso</a>
                         </td>
                     </tr>
 
@@ -48,7 +48,7 @@
         </table>
 
         <br><br>
-        <h2>Ver dias laborales de los empleados por rango de fechas</h2>
+        <h2>Ver dias de descanso por rango de fechas</h2>
 
         <div class="col-12">
             <div class="p-3 m-1"> <!--Padding y margin del texto-->           
@@ -60,7 +60,7 @@
                         <th scope="col">Acción</th>
                         </tr>
                     </thead>
-                    <form method="POST" action="{{ route('nominaTotalDiasLaborados') }}">
+                    <form method="POST" action="">
                         @csrf
                         <tbody>
                             <tr>
@@ -83,21 +83,21 @@
     </div>
 
 
-    @if (Session::has('resGuardarAsistencia'))
+    @if (Session::has('resGuardarDescanso'))
         <script>
             Swal.fire({
                 title: "Informacion",
-                text: "{{ session('resGuardarAsistencia') }}",
+                text: "{{ session('resGuardarDescanso') }}",
                 icon: "success"
             });
         </script>  
     @endif
 
-    @if (Session::has('resErrorAsistencia'))
+    @if (Session::has('resErrorDescanso'))
         <script>
             Swal.fire({
                 title: "Informacion",
-                text: "{{ session('resErrorAsistencia') }}",
+                text: "{{ session('resErrorDescanso') }}",
                 icon: "error"
             });
         </script>  

@@ -10,7 +10,9 @@ class Prestacion extends Model
     use HasFactory;
 
     protected $table = "tbl_prestaciones_ley";
+    protected $primaryKey = 'idPrestacion';
 
+    //Perstacion del aguinaldo para esta tabla
     protected $fillable = [
         'tipoPrestacion',
         'prestacion',
