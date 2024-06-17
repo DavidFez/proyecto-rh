@@ -60,4 +60,9 @@ class Empleado extends Model
     public function vacaciones(){
         return $this->hasMany(Vacaciones::class, 'idEmpleado', 'idEmpleado');
     }
+
+    public function horasExtras() {
+        
+        return $this->hasMany(HorasExtra::class, 'idEmpleado', 'idEmpleado');
+    }
 }

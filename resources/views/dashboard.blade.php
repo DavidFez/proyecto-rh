@@ -99,6 +99,8 @@
                             <a href="{{ route('gestionNomina')}}" class="dropdown-item">Gestion Nomina</a>
                             <a href="{{ route('nominaGestionPrestaciones') }}" class="dropdown-item">Prestaciones de ley</a>
                             <a href="{{ route('nominaBonificaciones')}}" class="dropdown-item">Bonificaciones</a>
+                            <a href="{{ route('vistaGestionHorasExtras') }}" class="dropdown-item">Horas Extras</a>
+                            <a href="{{ route('asuetosGestion') }}" class="dropdown-item">Ausuetos</a>
                             
                             
 

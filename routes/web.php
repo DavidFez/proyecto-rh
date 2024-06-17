@@ -23,6 +23,9 @@ Route::view('/Admin-index', 'VistasAdministrador/inicioAdmin')->name('index');
 Route::get('/Admin-gestion-de-cargos', [VistasAdminController::class, 'gestionsDeCargos'])->name('verGestionCargos');
 Route::view('/Admin-crear-cargo', 'Nominas/crearCargo')->name('nominaCrearCargo');
 Route::post('/Admin-guardar-cargo', [VistasAdminController::class, 'crearCargo'])->name('nominaGuardarCargo');
+Route::get('/Admin-datos-{id}-cargo', [VistasAdminController::class, 'verDatosCargo'])->name('datosCargo');
+Route::get('/Admin-edit-{id}-cargo', [VistasAdminController::class, 'editarCargoVista'])->name('vistaEditCargo');
+Route::post('/Admin-edit-datos-{id}-cargo', [VistasAdminController::class, 'editarCargo'])->name('guardarEditCargo');
 
 Route::get('/Admin-gestion-de-empleados', [VistasAdminController::class, 'gestionDeEmpleados'])->name('nominaGestionEmpleados');
 Route::get('/Admin-crear-empleado', [VistasAdminController::class, 'vistaAgregarEmpleado'])->name('nominaAgregarEmpleado');
@@ -40,6 +43,12 @@ Route::get('/Admin-gestion-de-nomina', [VistasAdminController::class, 'gestionNo
 Route::post('/Admin-ver-tabla-nomina', [VistasAdminController::class, 'ingresarEmpleadoNomina'])->name('verTablaNomina');
 
 Route::get('/Admin-boleta-{id}-de-pago', [VistasAdminController::class, 'generarBoletaPago'])->name('verBoletaPago');
+
+Route::get('/Admin-gestion-de-horas-extras', [VistasAdminController::class, 'vistaRegistroHorasExtra'])->name('vistaGestionHorasExtras');
+Route::post('/Admin-gestion-registro-horas-extras', [VistasAdminController::class, 'registrarHorasExtra'])->name('registroHorasExtra');
+
+Route::get('/Admin-gestion-de-asuetos', [VistasAdminController::class, 'gestionAsuetos'])->name('asuetosGestion');
+Route::post('/Admin-registrar-asueto', [VistasAdminController::class, 'registrarAsueto'])->name('asuetoRegistrar');
 
 
 Route::get('/Admin-gestion-asistencia', [VistasAdminController::class, 'gestionAsistencias'])->name('nominaGestionAsistencia');
