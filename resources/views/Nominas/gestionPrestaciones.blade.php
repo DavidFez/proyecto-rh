@@ -33,7 +33,7 @@
                         <td>{{$prestacion->tipoPrestacion}}</td>
                         <td>% {{$prestacion->porcentaje}}</td>
                         <td>
-                            <button class="btn btn-primary" data-bs-target="#exampleModalToggle{{$numero}}" data-bs-toggle="modal">Editar</button>
+                            <button class="btn btn-editar" data-bs-target="#exampleModalToggle{{$numero}}" data-bs-toggle="modal">Editar</button>
                         </td>
                     </tr>
 

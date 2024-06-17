@@ -1,0 +1,25 @@
+.btn-insertar {
+    background-color: #2d6c50;
+    color: rgb(255, 255, 255);
+}
+
+.btn-ver {
+    background-color: #666666;
+    color: rgb(255, 255, 255);
+    border: none;
+}
+
+.btn-editar {
+    background-color:#292f4d;
+    color: rgb(255, 255, 255);
+}
+
+.btn-eliminar {
+    background-color:#294d3d;
+    color: rgb(255, 255, 255);
+}
+
+.btn-evaluar {
+    background-color:#1b6b77;
+    color: rgb(255, 255, 255);
+}

@@ -25,7 +25,7 @@
             <br>
             <div class="mb-3">
                 <label for="exampleFormControlTextarea1" class="form-label">Descripcion del cargo</label>
-                <textarea name="descripcionCargo" id="editor" cols="30" rows="50"></textarea>
+                <textarea name="descripcionCargo" class="form-edit" id="editor" cols="30" rows="50"></textarea>
     
                 <script>
                     ClassicEditor

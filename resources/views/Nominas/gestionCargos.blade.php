@@ -7,7 +7,7 @@
 
         <h2>Gestión de cargos</h2>
         <hr>
-        <a href="{{ route('nominaCrearCargo') }}" class="btn btn-success">+ Agregar Cargo</a>
+        <a href="{{ route('nominaCrearCargo') }}" class="btn btn-insertar ">+ Agregar Cargo</a>
         <br>
         <br>
 
@@ -32,8 +32,9 @@
                         <td>{{$cargo->nombreCargo}}</td>
                         <td>$ {{$cargo->salario}}</td>
                         <td>
-                            <a href="#" class="btn btn-primary">Ver</a>
-                            <a href="#" class="btn btn-secondary">Editar</a>
+                            <a href="#" class="btn btn-ver">Ver</a>
+                            <a href="#" class="btn btn-editar">Editar</a>
+                            <a href="#" class="btn btn-danger">Eliminar</a>
                         </td>
                     </tr>
 

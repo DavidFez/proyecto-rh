@@ -8,7 +8,7 @@
         <h2>Bonificaciones</h2>
         <hr>
 
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">+ Agregar Bonificaion a empleado</button>
+        <button type="button" class="btn btn-insertar" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">+ Agregar Bonificaion a empleado</button>
 
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">

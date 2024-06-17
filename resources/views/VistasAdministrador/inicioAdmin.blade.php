@@ -1,5 +1,5 @@
 @extends('dashboard')
-@section('titulo', '- Incio') 
+@section('titulo', '- Inicio') 
 
 @section('contenido')
     <?php
@@ -12,13 +12,16 @@
             $mensaje = "¡Buenos días!";
         } 
         elseif ($horaActual >= 12 && $horaActual < 18) {
-            $mensaje = "¡Buenas tardes!";
+            $mensaje = "¡BUENAS TARDES!";
         } 
         else {
             $mensaje = "¡Buenas noches!";
         }
     ?>
-    <h1> {{$mensaje}} </h1>
-    <h2>¡Bienvenid@ de nuevo @auth {{Auth::user()->name}}! 👋 @endauth</h2>
+    <div class="centered-content">
+        <h1>{{$mensaje}}</h1>
+        <h1>¡BIENVENIDO DE NUEVO @auth {{Auth::user()->name}}! 👋 @endauth</h1>
+
+    </div>
 
 @endsection

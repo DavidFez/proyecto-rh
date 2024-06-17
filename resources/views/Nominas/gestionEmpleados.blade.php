@@ -7,7 +7,7 @@
         <br>
         <h2>Gestión de empleados</h2>
         <hr>
-        <a href="{{route('nominaAgregarEmpleado')}}" class="btn btn-success">+ Agregar Empleado</a>
+        <a href="{{route('nominaAgregarEmpleado')}}" class="btn btn-insertar">+ Agregar Empleado</a>
         <br>
         <br>
 
@@ -35,8 +35,8 @@
                         <td>{{$empleado->cargo->nombreCargo}}</td>
                         <td>$ {{$empleado->cargo->salario}}</td>
                         <td>
-                            <a href="{{route('nominaVerDatosEmpleado', $empleado->idEmpleado)}}" class="btn btn-primary">Ver</a>
-                            <a href="#" class="btn btn-secondary">Editar</a>
+                            <a href="{{route('nominaVerDatosEmpleado', $empleado->idEmpleado)}}" class="btn btn-ver">Ver</a>
+                            <a href="#" class="btn btn-editar">Editar</a>
                         </td>
                     </tr>
 

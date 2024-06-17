@@ -1,0 +1,12 @@
+.centered-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80vh; /* 100% de la altura de la ventana */
+    text-align: center;
+}
+
+.centered-content h1{
+    margin: 0;
+}

@@ -14,7 +14,6 @@
     z-index: 99;
 }
 
-
 /*** Spinner ***/
 #spinner {
     opacity: 0;
@@ -28,7 +27,6 @@
     visibility: visible;
     opacity: 1;
 }
-
 
 /*** Button ***/
 .btn {
@@ -61,7 +59,6 @@
     border-radius: 50px;
 }
 
-
 /*** Layout ***/
 .sidebar {
     position: fixed;
@@ -76,10 +73,26 @@
     z-index: 999;
 }
 
+.form-control {
+    background: var(--secondary);
+    border: none;
+}
+
+.form-edit {
+    background: var(--secondary);
+    border: none;
+}
+
+/* Estilo para el contenedor editable de CKEditor */
+.ck-editor__editable_inline {
+    background: var(--secondary) !important;
+    border: none !important;
+}
+
 .content {
     margin-left: 250px;
     min-height: 100vh;
-    background: #292929;
+    background: #1d1d1d;
     transition: 0.5s;
 }
 
