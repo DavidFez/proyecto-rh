@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asistencia;
+use App\Models\Asuetos;
 use App\Models\AusenciaInjustificada;
 use App\Models\AusenciaJustificada;
 use App\Models\BoletaPago;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Cargo;
 use App\Models\Empleado;
+use App\Models\HorasExtra;
 use App\Models\Incapacidad;
 use App\Models\Nomina;
 use App\Models\Prestacion;
@@ -43,6 +45,39 @@ class VistasAdminController extends Controller
                     
                     'cargosDeLaEmpresa' => $listaCargos
                 ]);
+            }
+
+            public function verDatosCargo($id){
+                
+                $cargoVer = Cargo::find($id);
+
+                return view('Nominas/verCargo', [
+
+                    'datosCargo' => $cargoVer
+                ]);
+            }
+
+            public function editarCargoVista($id){
+
+                $cargoEditar = Cargo::find($id);
+
+                return view('Nominas/editarCargo', [
+
+                    'editCargo' => $cargoEditar
+                ]);
+            }
+
+            public function editarCargo(Request $datosCargo, $id){
+                
+                $cargoEdit = Cargo::find($id);
+
+                $cargoEdit->nombreCargo = $datosCargo->editarCargo;
+                $cargoEdit->descripcionCargo = $datosCargo->editarDescripCargo;
+                $cargoEdit->salario = $datosCargo->editarSalarioCargo;
+
+                $cargoEdit->save();
+
+                return redirect()->route('verGestionCargos')->with('resEditarCargo', 'El cargo se ha editado correctamente');
             }
 
             public function crearCargo(Request $datosCargo){
@@ -434,6 +469,75 @@ class VistasAdminController extends Controller
                 ]);
                 
             }
+
+        //----------------------------------------------------------------
+
+        //------- Funciones para las horas extra -------------------------
+            public function vistaRegistroHorasExtra(){
+
+                $listaEmpleados = Empleado::all();
+
+                return view('Nominas/gestionHorasExtra', [
+
+                    'listaEmpleados' => $listaEmpleados
+                ]);
+            }
+
+            public function registrarHorasExtra(Request $datosHorasExtra){
+
+                $horasExtra = new HorasExtra();
+                $horasExtra->idEmpleado = $datosHorasExtra->empleadoHoraExtra;
+                $horasExtra->fecha = $datosHorasExtra->fechaHoraExtra;
+                $horasExtra->horaInicio = $datosHorasExtra->horaIniHoraExtra;
+                $horasExtra->horaFin = $datosHorasExtra->horaFinHoraExtra;
+                $horasExtra->totalHorasExtra = $datosHorasExtra->totalHoraExtra;
+
+                $trabajador = Empleado::with('cargo')->where('idEmpleado', $datosHorasExtra->empleadoHoraExtra)->first();;
+                $salario = $trabajador->cargo->salario;
+
+                $horasExtra->montoHorasExtra = ( ( ( ($salario/30) / 8) * 1.25 )* 2) * $horasExtra->totalHorasExtra;
+                $horasExtra->save();
+
+                return back()->with('resGuardarHoraExtra', 'Las horas extras se han registrado correctamente');
+    
+            }
+
+        //-----------------------------------------------------------------
+
+        //------------ FUNCIONES PARA LOS ASUETOS  --------------------------------
+
+            public function gestionAsuetos(){
+
+                $empleados = Empleado::all();
+
+                return view('Nominas/gestionAsuetos',[
+
+                    'empleadoAuetos' => $empleados
+                ]);
+            }
+
+            public function registrarAsueto(Request $datosAsueto){
+
+                $asueto = new Asuetos();
+                $asueto->idEmpleado = $datosAsueto->empleadoAsueto;
+                $asueto->fecha = $datosAsueto->fechaAsueto;
+                $asueto->asueto = $datosAsueto->diaAsueto;
+                $asueto->horaInicio = $datosAsueto->asuetoHoraInicio;
+                $asueto->horaFin = $datosAsueto->asuetoHoraFin;
+                $asueto->horasExtra = $datosAsueto->asuetoTotalHora;
+        
+                $trabajador = Empleado::with('cargo')->where('idEmpleado', $datosAsueto->empleadoAsueto)->first();
+                $salario = $trabajador->cargo->salario;
+
+                $recargoAsueto = round($salario / 30, 2);
+                $horasExtraAsueto = ( ( ( ($recargoAsueto * 2) / 8) * 1.25) * 2) * $datosAsueto->asuetoTotalHora;
+                
+                $asueto->totalAsueto = round($horasExtraAsueto + $recargoAsueto, 2);
+                $asueto->save();
+
+                return back()->with('resGuardarAsueto', 'Se ha registrado el asueto laborado para el empleado');
+            }
+
 
         //----------------------------------------------------------------
         

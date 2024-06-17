@@ -23,7 +23,8 @@
             <tbody class="table-group-divider">
 
                 @php
-                    $numero = 1 
+                    $numero = 1;
+                    $datos = array();
                 @endphp
 
                 @foreach ($cargosDeLaEmpresa as $cargo)
@@ -32,6 +33,8 @@
                         <td>{{$cargo->nombreCargo}}</td>
                         <td>$ {{$cargo->salario}}</td>
                         <td>
+                            <a href="{{route('datosCargo', $cargo->idCargo)}}" class="btn btn-primary">Ver</a>
+                            <a href="{{route('vistaEditCargo', $cargo->idCargo)}}" class="btn btn-primary">Editar</a>
                             <a href="#" class="btn btn-ver">Ver</a>
                             <a href="#" class="btn btn-editar">Editar</a>
                             <a href="#" class="btn btn-danger">Eliminar</a>
@@ -44,7 +47,6 @@
                 @endforeach
                 
             </tbody>
-    
         </table>
 
     </div>
@@ -55,6 +57,16 @@
             Swal.fire({
                 title: "Informacion",
                 text: "{{ session('resGuardarCargo') }}",
+                icon: "success"
+            });
+        </script>  
+    @endif
+
+    @if (Session::has('resEditarCargo'))
+        <script>
+            Swal.fire({
+                title: "Informacion",
+                text: "{{ session('resEditarCargo') }}",
                 icon: "success"
             });
         </script>  

@@ -9,6 +9,7 @@ class Cargo extends Model
 {
     use HasFactory;
     protected $table = "tbl_cargo";
+    protected $primaryKey = 'idCargo';
 
     protected $fillable = [
         'nombreCargo',
