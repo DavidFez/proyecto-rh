@@ -9,7 +9,8 @@
     <thead>
         <tr>
             <th>Empleado</th>
-            
+            <th>Puesto</th>
+            <th>Departamento</th>
             <th>Fecha de Evaluación</th>
             <th>Evaluador</th>
             <th>Nota (%)</th>
@@ -20,9 +21,9 @@
     <tbody>
         @foreach ($evaluaciones as $evaluacion)
         <tr>
-            <td>{{ $evaluacion->empleado->nombres}}</td>
-           
-            
+            <td>{{ $evaluacion->empleado->nombres}} {{ $evaluacion->empleado->apellidos }}</td>
+            <td>{{ $evaluacion->rol }}</td>
+            <td>{{ $evaluacion->departamento }}</td>
             <td>{{ $evaluacion->fecha_evaluacion }}</td>
             <td>{{ $evaluacion->evaluador }}</td>
             <td>{{ $evaluacion->nota }}</td>
