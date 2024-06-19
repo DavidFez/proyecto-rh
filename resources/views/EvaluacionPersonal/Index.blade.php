@@ -28,17 +28,14 @@
             <td>{{ $evaluacion->evaluador }}</td>
             <td>{{ $evaluacion->nota }}</td>
             <td>{{ $evaluacion->observaciones }}</td>
-            <!--
             <td>
-                <a href="#" class="btn btn-info">Ver</a>
-                <a href="#" class="btn btn-warning">Editar</a>
-                <form action="#" method="POST" style="display:inline-block;">
+                
+                <form action="{{ route('evaluaciones.destroy', $evaluacion->id_evaluacion) }}" method="POST" style="display:inline-block;">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Eliminar</button>
                 </form>
             </td>
-              -->
         </tr>
         @endforeach
     </tbody>

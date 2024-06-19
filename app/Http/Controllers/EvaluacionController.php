@@ -35,5 +35,13 @@ class EvaluacionController extends Controller
         $evaluaciones = Evaluacion::with('empleado', 'criterios')->get();
         return view('EvaluacionPersonal.index', compact('evaluaciones'));
     }
+    public function destroy($id)
+{
+    $evaluacion = Evaluacion::findOrFail($id);
+    $evaluacion->delete();
+
+    return redirect()->route('evaluaciones.index')->with('success', 'Evaluación eliminada correctamente');
+}
+
 }
 

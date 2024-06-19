@@ -39,3 +39,5 @@ Route::get('Admin/evaluacion', [EvaluacionController::class, 'index'])->name('ev
 Route::get('/evaluaciones', [EvaluacionController::class, 'index'])->name('evaluaciones.index');
 Route::get('/evaluaciones/create', [EvaluacionController::class, 'create'])->name('evaluaciones.create');
 Route::post('/evaluaciones/store', [EvaluacionController::class, 'store'])->name('evaluaciones.store');
+
+Route::delete('/evaluaciones/{id}', [EvaluacionController::class, 'destroy'])->name('evaluaciones.destroy');

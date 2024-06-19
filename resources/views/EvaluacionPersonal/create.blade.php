@@ -17,7 +17,7 @@
                     <label for="idEmpleado" class="form-label">Nombre del Empleado</label>
                     <select class="form-control" id="idEmpleado" name="idEmpleado" required>
                     @foreach($empleados as $empleado)
-                    <option value="{{ $empleado->idEmpleado }}">{{ $empleado->nombres }}</option>
+                    <option value="{{ $empleado->idEmpleado }}">{{ $empleado->nombres }}  {{ $empleado->apellidos }}</option>
                     @endforeach
                     </select>
         </div>
@@ -46,10 +46,14 @@
                     <label for="evaluador">Evaluador:</label>
                     <input type="text" name="evaluador" class="form-control">
                 </div>
+                <div class="form-group mb-2">
+                    <label for="nota_calculada">Porcentaje Calculado (%):</label>
+                    <input type="number" class="form-control" id="nota_calculada" readonly>
+                </div>
                 <div class="form-group mb-3">
-                <label for="nota_evaluacion">Nota (%):</label>
-                <input type="number" name="nota_evaluacion" class="form-control" id="nota_evaluacion" >
-            </div>
+                    <label for="nota">Nota (%):</label>
+                    <input type="number" name="nota" class="form-control" id="nota" step="1" required>
+                </div>
                 <div class="form-group mb-3">
                     <label for="observaciones">Observaciones:</label>
                     <textarea name="observaciones" class="form-control"></textarea>
@@ -1087,7 +1091,7 @@
         var porcentajeRedondeado = Math.round(porcentaje);
 
         // Asignamos el porcentaje calculado al campo nota
-        $('#nota_evaluacion').val(porcentajeRedondeado);
+        $('#nota_calculada').val(porcentajeRedondeado);
 
         console.log('Porcentaje redondeado:', porcentajeRedondeado);
     }
@@ -1097,15 +1101,27 @@
         calcularNota();
 
         // Verifica si el valor se estableció correctamente
-        console.log('Valor en nota_evaluacion:', $('#nota_evaluacion').val());
+        console.log('Valor en nota:', $('#nota_calculada').val());
 
         // Cierra el modal después de guardar
         $('#evaluacionModal').modal('hide');
     }
 
-    $('#guardarEvaluacionForm').submit(function(event) {
-        // Verifica si el valor de nota_evaluacion está correcto antes de enviar el formulario
-        var nota = $('#nota_evaluacion').val();
+    function guardarNota(event) {
+        // Calcula la nota y asegura que el valor se mantiene en el campo nota antes de enviar el formulario
+        calcularNota();
+        var nota = $('#nota_calculada').val();
+        if (!nota) {
+            alert('Por favor, realiza la evaluación antes de guardar.');
+            event.preventDefault(); // Evita el envío del formulario
+            return false;
+        }
+        return true; // Permite el envío del formulario
+    }
+
+    $('#crearEvaluacionForm').submit(function(event) {
+        // Verifica si el valor de nota está correcto antes de enviar el formulario
+        var nota = $('#nota_calculada').val();
         if (!nota) {
             alert('Por favor, realiza la evaluación antes de guardar.');
             event.preventDefault(); // Evita el envío del formulario
@@ -1113,10 +1129,9 @@
     });
 
     $('#evaluacionModal').on('hidden.bs.modal', function() {
-        // Recalcula la nota y asegura que el valor se mantiene en el campo nota_evaluacion
+        // Recalcula la nota y asegura que el valor se mantiene en el campo nota
         calcularNota();
     });
 </script>
-
 
 @endsection
