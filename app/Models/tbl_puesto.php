@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class tbl_puesto extends Model
+class Puesto extends Model
 {
     use HasFactory;
 
@@ -20,8 +20,8 @@ class tbl_puesto extends Model
         'idDepartamento',
     ];
 
-      public function departamento()
-      {
-         return $this->belongsTo(tbl_departamento::class, 'idDepartamento');
-      }
+    public function departamento()
+    {
+        return $this->belongsTo(Departamento::class, 'idDepartamento');
+    }
 }

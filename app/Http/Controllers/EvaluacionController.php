@@ -2,62 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Evaluacion;
+use App\Models\CriterioEvaluacion;
+use App\Models\Empleado;
 use Illuminate\Http\Request;
 
 class EvaluacionController extends Controller
 {
-    public function index()
-    {
-       // $puestos = tbl_puesto::all();
-        //return view('descriptorPuestoTrabajo.descriptorPuesto', compact('puestos'));
-        return view('EvaluacionPersonal.EvaluacionIndex');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $empleados = Empleado::all();
+        return view('EvaluacionPersonal.create', compact('empleados'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $evaluacion = Evaluacion::create($request->only([
+            'idEmpleado', 'rol', 'departamento', 'fecha_evaluacion', 'evaluador', 'nota', 'observaciones'
+        ]));
+
+        if ($request->has('criterios')) {
+            foreach ($request->criterios as $criterio) {
+                $evaluacion->criterios()->create($criterio);
+            }
+        }
+
+        return redirect()->route('evaluaciones.index')->with('success', 'Evaluación creada exitosamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $evaluaciones = Evaluacion::with('empleado', 'criterios')->get();
+        return view('EvaluacionPersonal.index', compact('evaluaciones'));
     }
 }
+
