@@ -37,7 +37,7 @@
                 
             </div>
 
-            <button type="submit" class="btn btn-primary">Guardad</button>
+            <button type="submit" class="btn btn-primary">Guardar Cargo</button>
             <a href="{{ route('verGestionCargos') }}" class="btn btn-secondary">Cancelar</a>
 
         </form>

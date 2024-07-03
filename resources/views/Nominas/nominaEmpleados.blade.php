@@ -12,7 +12,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Empleado</th>
                     <th scope="col">Cargo</th>
-                    <th scope="col">Telefono</th>
+                    <th scope="col">DUI</th>
                     <th scope="col">Acciones</th>
                 </tr>
             </thead>
@@ -28,7 +28,7 @@
                         <th scope="row">{{$numero}}</th>
                         <td>{{$empleado->nombres}} {{$empleado->apellidos}}</td>
                         <td>{{$empleado->cargo->nombreCargo}}</td>
-                        <td>+503 {{$empleado->telefono}}</td>
+                        <td>{{$empleado->dui}}</td>
                         <td>
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal{{$numero}}" data-bs-whatever="@getbootstrap">+ Agregar a nomina mensual</button>
                         </td>
@@ -51,14 +51,14 @@
 
             <div class="modal fade" id="exampleModal{{$contador}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
-                    <div class="modal-content">
+                    <div class="modal-content bg-secondary text-white">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="exampleModalLabel">Ingrese el rango de fechas</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
 
-                            <form action="{{route('verTablaNomina')}}" method="POST">
+                            <form class="nominaForm" action="{{route('verTablaNomina')}}" method="POST">
                                 @csrf
 
                                 <input type="hidden" name="idEmpleado" value="{{$item->idEmpleado}}">
@@ -69,12 +69,12 @@
 
                                 <div class="mb-3">
                                     <label for="recipient-name" class="col-form-label">Fecha 1:</label>
-                                    <input type="date" class="form-control" name="nominaFecha1">
+                                    <input type="date" class="form-control" name="nominaFecha1" id="fechaEnviar1">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="recipient-name" class="col-form-label">Fecha 2:</label>
-                                    <input type="date" class="form-control" name="nominaFecha2">
+                                    <input type="date" class="form-control" name="nominaFecha2" id="fechaEnviar2">
                                 </div>
 
                                 <div class="modal-footer">
@@ -107,15 +107,15 @@
                         <th scope="col">Acción</th>
                         </tr>
                     </thead>
-                    <form method="POST" action="">
+                    <form method="POST" action="{{route('listaNominasMensuales')}}">
                         @csrf
                         <tbody>
                             <tr>
                                 <th scope="row">
-                                    <input name="fecha1Nomina" type="date" class="form-control" placeholder="Fecha Inicial" style="width: 200px;">
+                                    <input name="buscarNomina1" type="date" class="form-control" placeholder="Fecha Inicial" style="width: 200px;">
                                 </th>
                                 <td>
-                                    <input name="fecha2Nomina" type="date" class="form-control" placeholder="Fecha Final" style="width: 200px;">
+                                    <input name="buscarNomina2" type="date" class="form-control" placeholder="Fecha Final" style="width: 200px;">
                                 </td>
                                 <td>
                                     <button type="submit" class="btn btn-secondary" id="btnGenerarInforme">Generar Informe</button>
@@ -126,6 +126,12 @@
                 </table>
             </div>
         </div>
+
         
+        
+@endsection
+
+@section('jsVistasAdmin')
+
 @endsection
     

@@ -35,7 +35,7 @@
                 <div class="col">
                     <h4>Descripcion del cargo: </h4>
                 </div>
-                <div class="col">
+                <div class="row">
                     <h6> {!! $datosCargo->descripcionCargo !!}</h6>
                 </div>
             </div>

@@ -26,11 +26,16 @@ Route::post('/Admin-guardar-cargo', [VistasAdminController::class, 'crearCargo']
 Route::get('/Admin-datos-{id}-cargo', [VistasAdminController::class, 'verDatosCargo'])->name('datosCargo');
 Route::get('/Admin-edit-{id}-cargo', [VistasAdminController::class, 'editarCargoVista'])->name('vistaEditCargo');
 Route::post('/Admin-edit-datos-{id}-cargo', [VistasAdminController::class, 'editarCargo'])->name('guardarEditCargo');
+Route::delete('/Admin-eliminar-{id}-cargo', [VistasAdminController::class, 'eliminarCargo'])->name('cargoEliminar');
 
 Route::get('/Admin-gestion-de-empleados', [VistasAdminController::class, 'gestionDeEmpleados'])->name('nominaGestionEmpleados');
 Route::get('/Admin-crear-empleado', [VistasAdminController::class, 'vistaAgregarEmpleado'])->name('nominaAgregarEmpleado');
 Route::post('/Admin-guardar-empleado', [VistasAdminController::class, 'guardarEmpleado'])->name('nominaGuardarEmpleado');
 Route::get('/Admin-datos-{id}-del-empleado', [VistasAdminController::class, 'verDatosDelEmpleado'])->name('nominaVerDatosEmpleado');
+Route::delete('/Admin-eliminar-{id}-empleado', [VistasAdminController::class, 'desativarEmplead'])->name('eliminarEmpleadoOrganizacion');
+
+Route::get('/Admin-editar-{id}-datos-empleado', [VistasAdminController::class, 'vistaEditarEmpleado'])->name('editarDatosEmpleado');
+Route::post('/Admin-editar-{id}-registrar-datos-empleado', [VistasAdminController::class, 'editarEmpleado'])->name('registrarNewDatosEmpleado');
 
 Route::get('/Admin-prestacione-de-ley', [VistasAdminController::class, 'gestionPrestaciones'])->name('nominaGestionPrestaciones');
 Route::post('/Admin-edit-prestacio-ley-{id}', [VistasAdminController::class, 'editarPrestacion'])->name('editarPrestacionDeLey');
@@ -41,21 +46,29 @@ Route::post('/Admin-bonificaciones-otorgadas', [VistasAdminController::class, 'm
 
 Route::get('/Admin-gestion-de-nomina', [VistasAdminController::class, 'gestionNomina'])->name('gestionNomina');
 Route::post('/Admin-ver-tabla-nomina', [VistasAdminController::class, 'ingresarEmpleadoNomina'])->name('verTablaNomina');
+Route::post('/Admin-lista-nominas-mensuales', [VistasAdminController::class, 'verNominasMensuales'])->name('listaNominasMensuales');
+Route::get('/Admin-ver-nomina-{id}-de-empleado', [VistasAdminController::class, 'verNominaEmpleado'])->name('verDatosNomina');
 
 Route::get('/Admin-boleta-{id}-de-pago', [VistasAdminController::class, 'generarBoletaPago'])->name('verBoletaPago');
+Route::view('/Admin-buscar-boletas-mensuales', 'Nominas/gestionBoletaPago')->name('buscarBoletasMensuales');
+Route::post('/Admin-lista-mensual-boletas-de-pago', [VistasAdminController::class, 'verBoletasMensuales'])->name('verBoletasLista');
+Route::get('/Admin-ver-boleta-{id}-de-pago', [VistasAdminController::class, 'verArchivoBoleta'])->name('boletaVerArchivo');
 
 Route::get('/Admin-gestion-de-horas-extras', [VistasAdminController::class, 'vistaRegistroHorasExtra'])->name('vistaGestionHorasExtras');
 Route::post('/Admin-gestion-registro-horas-extras', [VistasAdminController::class, 'registrarHorasExtra'])->name('registroHorasExtra');
+Route::post('/Admin-lista-horas-extras', [VistasAdminController::class, 'verHorasExtraEmpleado'])->name('listadoDeHorasExtra');
 
 Route::get('/Admin-gestion-de-asuetos', [VistasAdminController::class, 'gestionAsuetos'])->name('asuetosGestion');
 Route::post('/Admin-registrar-asueto', [VistasAdminController::class, 'registrarAsueto'])->name('asuetoRegistrar');
+Route::post('/Admin-lista-de-asuetos', [VistasAdminController::class, 'listaAsuetoMensuales'])->name('listAsuetos');
 
 
 Route::get('/Admin-gestion-asistencia', [VistasAdminController::class, 'gestionAsistencias'])->name('nominaGestionAsistencia');
 Route::get('/Admin-gestion-marcar-asistencia/{id}', [VistasAdminController::class, 'guardarAsistencia'])->name('nominaMarcarAsistencia');
 
-Route::get('/Admin-gestion-de-descansos', [VistasAdminController::class, 'gestionDescanso'])->name('nominaGestionDescanso');
-Route::get('/Admin-guardar-descanso/{id}', [VistasAdminController::class, 'marcarDescanso'])->name('nominaGuardarDescanso');
+
+Route::post('/Admin-guardar-dia-descanso', [VistasAdminController::class, 'registrarDescanso'])->name('registroDescanso');
+Route::get('/Admin/gestion-de-descansos', [VistasAdminController::class, 'gestionDescanso'])->name('nominaGestionDescanso');
 
 Route::post('/Admin-total-dias-laborados', [VistasAdminController::class, 'toalDiasLaborados'])->name('nominaTotalDiasLaborados');
 

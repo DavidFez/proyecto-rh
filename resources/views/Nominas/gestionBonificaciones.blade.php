@@ -12,7 +12,7 @@
 
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <div class="modal-content">
+                <div class="modal-content bg-secondary text-white">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Asignar Bonificaion a empleado</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -31,6 +31,12 @@
                                     @endforeach
                                 </select>
                             </div>
+
+                            <div class="mb-3">
+                                <label for="recipient-name" class="col-form-label">Fecha Bonificacion:</label>
+                                <input type="date" class="form-control" name="bonoFecha">
+                            </div>
+                            
                             <div class="mb-3">
                                 <label for="message-text" class="col-form-label">Concepto Bonificación:</label>
                                 <textarea name="bonoConcepto" class="form-control" id="message-text"></textarea>
@@ -42,7 +48,7 @@
                             
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Send message</button>
+                                <button type="submit" class="btn btn-primary">Registrar Bonificación</button>
                             </div>
 
                         </form>

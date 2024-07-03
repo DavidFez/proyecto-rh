@@ -23,6 +23,11 @@ class Nomina extends Model
         'salarioCargo',
         'diasLaborados',
         'diasDescanso',
+        'horasExtras',
+        'montoHorasExtra',
+        'asueto',
+        'montoAsueto',
+        'horaExtraAsueto',
         'periodoVacaciones',
         'cargoVacaciones',
         'periodoIncapacidad',
@@ -34,7 +39,9 @@ class Nomina extends Model
         'insa',
         'bonoConcepto',
         'bonificacion',
+        'aguinaldo',
         'totalDisponer',
         'id_empleado',
     ];
+    
 }

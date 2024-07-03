@@ -11,20 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tbl_boleta_pago', function (Blueprint $table) {
-            $table->id('idBoleta');
+        Schema::create('tbl_nomina', function (Blueprint $table) {
+            $table->id('idNomina');
             $table->date('fechaRegistro');
-            $table->date('fechaIncorporacion')->nullable();
+            $table->date('fecha1');
+            $table->date('fecha2');
             $table->string('nombreEmpleado', 255);
             $table->string('cargo', 255);
             $table->decimal('salarioCargo', 8, 2);
-            $table->string('periodoLaborado', 100);
             $table->integer('diasLaborados');
             $table->integer('diasDescanso')->nullable();
-            $table->string('metodoPago', 100)->nullable();
-            $table->string('cuentaPago', 100)->nullable();
-            $table->date('fechaPago');
-            $table->string('periodoVacaciones', 100)->nullable();
+            $table->integer('horasExtras')->nullable();
+            $table->float('montoHorasExtra', 8, 2)->nullable();
+            $table->date('asueto')->nullable();
+            $table->float('montoAsueto', 8, 2)->nullable();
+            $table->float('horaExtraAsueto', 8, 2)->nullable();
+            $table->string('periodoVacaciones',100)->nullable();
             $table->decimal('cargoVacaciones', 8, 2)->nullable();
             $table->string('periodoIncapacidad', 100)->nullable();
             $table->integer('asistenciaJus')->nullable();
@@ -32,13 +34,12 @@ return new class extends Migration
             $table->decimal('salarioBruto', 8, 2);
             $table->decimal('isss', 8, 2)->nullable();
             $table->decimal('afp', 8, 2)->nullable();
-            $table->decimal('renta', 8, 2)->nullable();
-            $table->decimal('totalDescuentos', 8, 2)->nullable();
+            $table->decimal('insa', 8, 2)->nullable();
             $table->string('bonoConcepto')->nullable();
             $table->decimal('bonificacion', 8, 2)->nullable();
-            $table->decimal('salarioNeto', 8, 2);
+            $table->decimal('aguinaldo', 8  , 2)->nullable();
+            $table->decimal('totalDisponer', 8, 2);
             $table->integer('id_empleado')->nullable();
-            $table->text('archivoBoleta'); //campo de la ruta del pdf del archivo
             $table->timestamps();
         });
     }
@@ -48,6 +49,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tbl_boleta_pago');
+        Schema::dropIfExists('tbl_nomina');
     }
 };

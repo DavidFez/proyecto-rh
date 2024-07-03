@@ -15,6 +15,7 @@ class Empleado extends Model
 
     protected $fillable = [
         'idCargo',
+        'estado',
         'nombres',
         'apellidos',
         'direccion',

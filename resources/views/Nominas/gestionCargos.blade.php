@@ -32,12 +32,10 @@
                         <th scope="row">{{$numero}}</th>
                         <td>{{$cargo->nombreCargo}}</td>
                         <td>$ {{$cargo->salario}}</td>
-                        <td>
-                            <a href="{{route('datosCargo', $cargo->idCargo)}}" class="btn btn-primary">Ver</a>
-                            <a href="{{route('vistaEditCargo', $cargo->idCargo)}}" class="btn btn-primary">Editar</a>
-                            <a href="#" class="btn btn-ver">Ver</a>
-                            <a href="#" class="btn btn-editar">Editar</a>
-                            <a href="#" class="btn btn-danger">Eliminar</a>
+                        <td class="d-flex gap-2">
+                            <a href="{{route('datosCargo', $cargo->idCargo)}}" class="btn btn-ver">Ver</a>
+                            <a href="{{route('vistaEditCargo', $cargo->idCargo)}}" class="btn btn-editar">Editar</a>
+                            
                         </td>
                     </tr>
 
@@ -57,6 +55,16 @@
             Swal.fire({
                 title: "Informacion",
                 text: "{{ session('resGuardarCargo') }}",
+                icon: "success"
+            });
+        </script>  
+    @endif
+
+    @if (Session::has('resEditarCargo'))
+        <script>
+            Swal.fire({
+                title: "Informacion",
+                text: "{{ session('resEditarCargo') }}",
                 icon: "success"
             });
         </script>  

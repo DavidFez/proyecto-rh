@@ -10,6 +10,7 @@ class Bonificacion extends Model
     use HasFactory;
 
     protected $table = "tbl_bonificaciones";
+    protected $primaryKey = 'idBonificacion';
 
     protected $fillable = [
         'idEmpleado',

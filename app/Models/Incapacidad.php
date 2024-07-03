@@ -16,6 +16,7 @@ class Incapacidad extends Model
         'fechaRegistro',
         'fechaInicio',
         'fechaFin',
+        'diasIncapacidad',
         'motivo',
         'constancia',
     ];

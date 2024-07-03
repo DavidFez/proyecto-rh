@@ -13,7 +13,7 @@
 
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <div class="modal-content">
+                <div class="modal-content bg-secondary text-white">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Registrar Incapacidad</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -34,13 +34,18 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="recipient-name" class="col-form-label">Fecha de inicio de incapacidad:</label>
-                                <input type="date" class="form-control" name="fechaInicioIcapaciadad">
+                                <label for="fechaInicioIcapaciadad" class="form-label">Fecha de inicio de incapacidad:</label>
+                                <input type="date" class="form-control" id="fechaInicioIcapaciadad" name="fechaInicioIcapaciadad" onchange="calcularDiasIncapacidad()">
                             </div>
-                            
+                        
                             <div class="mb-3">
-                                <label for="recipient-name" class="col-form-label">Fecha fin de incapacidad:</label>
-                                <input type="date" class="form-control" name="fechaFinIncapacidad">
+                                <label for="fechaFinIncapacidad" class="form-label">Fecha fin de incapacidad:</label>
+                                <input type="date" class="form-control" id="fechaFinIncapacidad" name="fechaFinIncapacidad" onchange="calcularDiasIncapacidad()">
+                            </div>
+                        
+                            <div class="mb-3">
+                                <label for="diasIncapaciodad" class="form-label">Días de incapacidad:</label>
+                                <input type="number" class="form-control" id="diasIncapaciodad" name="diasIncapaciodad" readonly>
                             </div>
 
                             <div class="mb-3">
@@ -76,5 +81,32 @@
         });
     </script>  
     @endif
+
+@endsection
+
+@section('jsVistasAdmin')
+    
+    <script>
+        function calcularDiasIncapacidad() {
+            // Obtener las fechas desde los inputs
+            const fechaInicio = document.getElementById('fechaInicioIcapaciadad').value;
+            const fechaFin = document.getElementById('fechaFinIncapacidad').value;
+
+            // Si ambas fechas están presentes, calcular diferencia en días
+            if (fechaInicio && fechaFin) {
+                const fechaInicioMs = new Date(fechaInicio).getTime();
+                const fechaFinMs = new Date(fechaFin).getTime();
+
+                const diferenciaMs = fechaFinMs - fechaInicioMs;
+                const diasIncapacidad = (diferenciaMs / (1000 * 60 * 60 * 24) + 1); // Convertir a días
+
+                // Mostrar el resultado en el input de días de incapacidad
+                document.getElementById('diasIncapaciodad').value = diasIncapacidad;
+            } else {
+                // Si falta alguna fecha, mostrar 0 o mensaje de error según tu lógica
+                document.getElementById('diasIncapaciodad').value = '';
+            }
+        }
+    </script>
 
 @endsection

@@ -45,6 +45,10 @@
         <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
         <!-- ---------------------------------------------------------------------------------------->
 
+        <!-- CDN para poder usar el calendario y que se vea mejor ----------------------->
+            <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js'></script>
+        <!-- ---------------------------------------------------------------------------------------->
+
     <!-- --------------------------------------------------------------------------------------------- -->
 
     @yield('css')
@@ -90,6 +94,7 @@
                             <a href="{{ route('verGestionCargos') }}" class="dropdown-item">Gestion Cargo</a>
                             <a href="{{ route('nominaGestionEmpleados') }}" class="dropdown-item">Gestion Empleados</a>
                             <a href="{{ route('gestionNomina')}}" class="dropdown-item">Gestion Nomina</a>
+                            <a href="{{ route('buscarBoletasMensuales') }}" class="dropdown-item">Boletas de pago</a>
                             <a href="{{ route('nominaGestionPrestaciones') }}" class="dropdown-item">Prestaciones de ley</a>
                             <a href="{{ route('nominaBonificaciones')}}" class="dropdown-item">Bonificaciones</a>
                             <a href="{{ route('vistaGestionHorasExtras') }}" class="dropdown-item">Horas Extras</a>
@@ -124,17 +129,7 @@
                         </div>
                     </div>
                 
-                    <a href="table.html" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>
-                    <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a href="signin.html" class="dropdown-item">Sign In</a>
-                            <a href="signup.html" class="dropdown-item">Sign Up</a>
-                            <a href="404.html" class="dropdown-item">404 Error</a>
-                            <a href="blank.html" class="dropdown-item">Blank Page</a>
-                        </div>
-                    </div>
+                    
                 </div>
             </nav>
         </div>

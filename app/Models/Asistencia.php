@@ -9,7 +9,8 @@ class Asistencia extends Model
 {
     use HasFactory;
 
-    protected $table = "tbl_dias_laborales";
+    protected $table = "tbl_asistencia";
+    protected $primaryKey = 'idAsistencia';
 
     protected $fillable = [
         'idEmpleado',
@@ -21,7 +22,7 @@ class Asistencia extends Model
 
     public function empleado(){
 
-        return $this->belongsTo(Empleado::class, 'idEmpleado', 'idEmpleado')->select(['idEmpleado', 'nombres', 'apellidos']);
+        return $this->belongsTo(Empleado::class, 'idEmpleado', 'idEmpleado')->select(['idEmpleado', 'nombres', 'apellidos', 'estado']);
 
     }
 

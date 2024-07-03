@@ -22,6 +22,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Svg\Tag\Rect;
 
 class VistasAdminController extends Controller
 {
@@ -80,6 +81,15 @@ class VistasAdminController extends Controller
                 return redirect()->route('verGestionCargos')->with('resEditarCargo', 'El cargo se ha editado correctamente');
             }
 
+            public function eliminarCargo($id){
+
+                $cargoEliminar = Cargo::find($id);
+
+                $cargoEliminar->delete();
+
+                return redirect()->route('verGestionCargos')->with('resEliminarCargo', 'El cargo se ha eliminado correctamente');
+            }
+            
             public function crearCargo(Request $datosCargo){
 
                 $cargo = new Cargo();
@@ -98,7 +108,7 @@ class VistasAdminController extends Controller
         // ------- Funciones para empelados --------------------------------
             public function gestionDeEmpleados()
             {
-                $listaEmpleados = Empleado::with('cargo')->get();
+                $listaEmpleados = Empleado::with('cargo')->where('estado', 'activo')->get();
 
                 return view('Nominas/gestionEmpleados', [
                     'empleados' => $listaEmpleados
@@ -121,6 +131,7 @@ class VistasAdminController extends Controller
 
                 // Asignar valores a los atributos del modelo Empleado
                 $empleado->idCargo = $request->input('cargoEmpleado');
+                $empleado->estado = 'activo';
                 $empleado->nombres = $request->input('nombreEmpleado');
                 $empleado->apellidos = $request->input('apellidoEmpleado');
                 $empleado->direccion = $request->input('direccionEmpleado');
@@ -151,13 +162,55 @@ class VistasAdminController extends Controller
 
             public function verDatosDelEmpleado($id)
             {
-                $datosEmpleado = Empleado::with('cargo')->where('idEmpleado', $id)->get();
+                $datosEmpleado = Empleado::with('cargo')->where('idEmpleado', $id)->first();
 
                 return view('Nominas/verEmpleado', [
                     'datosVerEmpleado' => $datosEmpleado
                 ]);
             }
 
+            public function vistaEditarEmpleado($id){
+
+                $empleadoEditar = Empleado::with('datosCargo')->where('idEmpleado', $id)->first();;
+                $cargosDisponibles = Cargo::all();
+
+                return view('Nominas/editarEmpleado', [
+                    'editEmpleado' => $empleadoEditar,
+                    'cargosDispo' => $cargosDisponibles
+                ]);
+
+            }
+
+            public function editarEmpleado(Request $editDatosEmpleado, $id){
+
+                $empleadoEdit = Empleado::find($id);
+                
+                $empleadoEdit->nombres = $editDatosEmpleado->editNombreEmpleado;
+                $empleadoEdit->apellidos = $editDatosEmpleado->editApellidoEmpleado;
+                $empleadoEdit->idCargo = $editDatosEmpleado->editCargo;
+                $empleadoEdit->direccion = $editDatosEmpleado->editDireccion;
+                $empleadoEdit->telefono = $editDatosEmpleado->editTelefono;
+                $empleadoEdit->correo = $editDatosEmpleado->editCorreo;
+                $empleadoEdit->dui = $editDatosEmpleado->editDui;
+                $empleadoEdit->cuentaDeposito = $editDatosEmpleado->editCuenta;
+                $empleadoEdit->banco = $editDatosEmpleado->editBanco;
+
+                $empleadoEdit->save();
+
+                return redirect()->route('nominaGestionEmpleados')->with('reEditEmpleado', 'Se ha editado el empleado correctamente');
+
+            }
+
+            public function desativarEmplead($id){
+
+                $empleadoDesactivar = Empleado::find($id);
+
+                $empleadoDesactivar->estado = 'inactivo';
+
+                $empleadoDesactivar->save();
+
+                return back()->with('resDesactivarEmpleado', 'El empleado ya no forma pate de la organización');
+            }
         //----------------------------------------------------------------
 
         // ------- Funciones para las prestaciones ------------------------
@@ -189,7 +242,7 @@ class VistasAdminController extends Controller
         // ------- Funciones para las bonificaciones ------------------------
             public function gestionBonificaciones(){
 
-                $empleadoBonificacion = Empleado::all();
+                $empleadoBonificacion = Empleado::where('estado', 'activo')->get();
         
                 return view('Nominas/gestionBonificaciones', [
 
@@ -202,6 +255,7 @@ class VistasAdminController extends Controller
 
                 $bonificaion = new Bonificacion();
                 $bonificaion->idEmpleado = $datosBonificacion->bonoEmpleado; 
+                $bonificaion->fechaBonificacion = $datosBonificacion->bonoFecha;
                 $bonificaion->bonificacion = $datosBonificacion->bonoConcepto;
                 $bonificaion->monto = $datosBonificacion->boonoMnto;
 
@@ -234,7 +288,7 @@ class VistasAdminController extends Controller
         // ------- Funciones para la nomina ------------------------
             public function gestionNomina() {
 
-                $empleadosNomina = Empleado::with('cargo')->get();
+                $empleadosNomina = Empleado::with('cargo')->where('estado', 'activo')->get();
                 return view('Nominas/nominaEmpleados', [
                     'nominaEmpleados' => $empleadosNomina
                 ]);
@@ -247,8 +301,11 @@ class VistasAdminController extends Controller
                 $fechaFinal = $fechasNomina->input('nominaFecha2');
 
                 $registroNomina = new Nomina(); //hacer el registro a la db
+
+                //En esta parte se obtinen los datos generales del empleado
                 $empleadoNomina = Empleado::with('cargo')->where('idEmpleado', $idDeEmpleado)->first();
 
+                //Dias laborados y dias de descanso
                 $diasLaborados = Asistencia::where('idEmpleado', $idDeEmpleado)
                 ->whereBetween('fecha', [$fechaInicial, $fechaFinal])
                 ->where('tipoDia', 'laboral')
@@ -258,15 +315,24 @@ class VistasAdminController extends Controller
                 ->where('tipoDia', 'descanso')
                 ->count();
 
-
-                $incapacidad = Incapacidad::where('idEmpleado', $idDeEmpleado)
+                //Incapacidades en el mes
+                $incapacidades = Incapacidad::where('idEmpleado', $idDeEmpleado)
                 ->whereBetween('fechaInicio', [$fechaInicial, $fechaFinal])
-                ->first();
-                $fechasIncapacidad = optional($incapacidad)->fechaInicio && optional($incapacidad)->fechaFin
-                ? optional($incapacidad)->fechaInicio . ' - ' . optional($incapacidad)->fechaFin
-                : 'No hubo incapacidad';
+                ->get();
 
+                $fechasIncapacidad = $incapacidades->map(function($incapacidad) {
+                    return 'del '.date('d-m-Y', strtotime($incapacidad->fechaInicio)). ' al ' . date('d-m-Y', strtotime($incapacidad->fechaFin));
+                })->join(', ');
 
+                if (empty($fechasIncapacidad)) {
+                    $fechasIncapacidad = 'No hubo incapacidad';
+                }
+
+                $totalDiasIncapacidad = Incapacidad::where('idEmpleado', $idDeEmpleado)
+                ->whereBetween('fechaInicio', [$fechaInicial, $fechaFinal])
+                ->sum('diasIncapacidad');
+
+                //contar numero de ausencias injustificadas y asusencias justificadas
                 $faltasInjus = AusenciaInjustificada::where('idEmpleado', $idDeEmpleado)
                 ->whereBetween('fecha', [$fechaInicial, $fechaFinal])
                 ->count();
@@ -274,19 +340,39 @@ class VistasAdminController extends Controller
                 ->whereBetween('fecha', [$fechaInicial, $fechaFinal])
                 ->count();
 
-
+                //Calculo de bonos
                 $bono = Bonificacion::where('idEmpleado', $idDeEmpleado)
                 ->whereBetween('fechaBonificacion', [$fechaInicial, $fechaFinal])
                 ->first();
                 $montoBono = optional($bono)->monto ?? 0;
                 $bonoConcepto = optional($bono)->bonificacion ?? 'No hay registro';
 
+                //Calculo de vacaciones
                 $vacacion = Vacaciones::where('idEmpleado', $idDeEmpleado)
                 ->whereBetween('fechaInicio', [$fechaInicial, $fechaFinal])
                 ->first();
                 $montoVacaciones = optional($vacacion)->montoVacaciones ?? 0;
                 $fechasVacacion = optional($vacacion)->fechaInicio ? optional($vacacion)->fechaInicio . ' - ' . optional($vacacion)->fechaFin : 'No hay registro';
 
+                //Calculo de hors extra
+                $totalHorasExtra = HorasExtra::where('idEmpleado', $idDeEmpleado)
+                ->whereBetween('fecha', [$fechaInicial, $fechaFinal])
+                ->sum('totalHorasExtra');
+
+                $montoTotalHorasExtra = HorasExtra::where('idEmpleado', $idDeEmpleado)
+                ->whereBetween('fecha', [$fechaInicial, $fechaFinal])
+                ->sum('montoHorasExtra');
+
+                //calculo de asueto 
+                $asueto = Asuetos::where('idEmpleado', $idDeEmpleado)
+                ->whereBetween('fecha', [$fechaInicial, $fechaFinal])
+                ->first();
+                $montoAsueto = optional($asueto)->totalAsueto ?? 0;
+                $horasExtraAsueto = optional($asueto)->horasExtra ?? 0;
+                $fechaAsueto = optional($asueto)->fecha ?? null;
+                
+
+                //Calculo de prestaciones
                 $prestacionAFP = Prestacion::where('tipoPrestacion', 'patronal')
                 ->where('prestacion', 'AFP')
                 ->first();
@@ -294,14 +380,19 @@ class VistasAdminController extends Controller
                 ->where('prestacion', 'ISSS')
                 ->first();
                 $prestacionINSA = Prestacion::where('tipoPrestacion', 'patronal')
-                ->where('prestacion', 'INSA')
+                ->where('prestacion', 'INSAFORP')
                 ->first();
 
                 $porcentajePatronaAfp = $prestacionAFP->porcentaje / 100;
                 $porcentajePatronaIsss = $prestacionISSS->porcentaje / 100;
                 $porcentajePatronalInsa = $prestacionINSA->porcentaje / 100;
 
-                $salarioBruto = $empleadoNomina->cargo->salario + $montoVacaciones;
+                $pagoDiaLaboral = $empleadoNomina->cargo->salario / 30;
+                $descuentoDiaInjus = $pagoDiaLaboral * $faltasInjus;
+                
+
+                $salarioBruto = ($pagoDiaLaboral * ($diasLaborados + $diasDescanso + $faltasJus + $totalDiasIncapacidad)) + $montoVacaciones + $montoTotalHorasExtra + $montoAsueto + $montoBono - $descuentoDiaInjus;
+
                 $isss = round($salarioBruto * $porcentajePatronaIsss, 2);
                 $afp = round($salarioBruto * $porcentajePatronaAfp, 2);
                 $insa = round($isss * $porcentajePatronalInsa, 2);
@@ -317,21 +408,27 @@ class VistasAdminController extends Controller
                     'salarioCargo' => $empleadoNomina->cargo->salario,
                     'diasLaborados' => $diasLaborados,
                     'diasDescanso' => $diasDescanso,
+                    'horasExtras' => $totalHorasExtra,
+                    'montoHorasExtra' => $montoTotalHorasExtra,
+                    'asueto' => $fechaAsueto,
+                    'montoAsueto' => $montoAsueto,
+                    'horaExtraAsueto' => $horasExtraAsueto,
                     'periodoVacaciones' => $fechasVacacion,
                     'cargoVacaciones' => $montoVacaciones,
                     'periodoIncapacidad' => $fechasIncapacidad,
                     'asistenciaJus' => $faltasJus,
                     'asistenciaInjus' => $faltasInjus,
-                    'salarioBruto' => $salarioBruto,
+                    'salarioBruto' => round($salarioBruto, 2),
                     'isss' => $isss,
                     'afp' => $afp,
                     'insa' => $insa,
                     'bonoConcepto' => $bonoConcepto,
                     'bonificacion' => $montoBono,
-                    'totalDisponer' => $totalDisponer,
+                    'totalDisponer' => round($totalDisponer, 2),
                     'isssPorcentaje' => $prestacionISSS->porcentaje,
                     'afpPocentaje' => $prestacionAFP->porcentaje,
-                    'insaPorcentaje' => $prestacionINSA->porcentaje 
+                    'insaPorcentaje' => $prestacionINSA->porcentaje,
+                    'diasIncapacidad' => $totalDiasIncapacidad
                 ];
 
                 
@@ -343,6 +440,11 @@ class VistasAdminController extends Controller
                 $registroNomina->salarioCargo = $datosGenerarNomina['salarioCargo'];
                 $registroNomina->diasLaborados = $datosGenerarNomina['diasLaborados'];
                 $registroNomina->diasDescanso = $datosGenerarNomina['diasDescanso'];
+                $registroNomina->horasExtras = $datosGenerarNomina['horasExtras'];
+                $registroNomina->montoHorasExtra = $datosGenerarNomina['montoHorasExtra'];
+                $registroNomina->asueto = $datosGenerarNomina['asueto'];
+                $registroNomina->montoAsueto = $datosGenerarNomina['montoAsueto'];
+                $registroNomina->horaExtraAsueto = $datosGenerarNomina['horaExtraAsueto'];
                 $registroNomina->periodoVacaciones = $datosGenerarNomina['periodoVacaciones'];
                 $registroNomina->cargoVacaciones = $datosGenerarNomina['cargoVacaciones'];
                 $registroNomina->periodoIncapacidad = $datosGenerarNomina['periodoIncapacidad'];
@@ -354,13 +456,13 @@ class VistasAdminController extends Controller
                 $registroNomina->insa = $datosGenerarNomina['insa'];
                 $registroNomina->bonoConcepto = $datosGenerarNomina['bonoConcepto'];
                 $registroNomina->bonificacion = $datosGenerarNomina['bonificacion'];
+                $registroNomina->aguinaldo = 0;
                 $registroNomina->totalDisponer = $datosGenerarNomina['totalDisponer'];
                 $registroNomina->id_empleado = $idDeEmpleado;
 
                 $registroNomina->save();
                 $idNomina = $registroNomina->idNomina;
                 
-
                 return view('Nominas/tablaNomina', [
                     'generarNomina' => $datosGenerarNomina,
                     'nominaId' => $idNomina
@@ -414,7 +516,7 @@ class VistasAdminController extends Controller
                     $renta = round((($salarioNominal - 2038.10) * 0.3) + 288.57, 2);
                 }
 
-                $salarioNeto = round(($nomina->salarioBruto - $isss - $afp - $renta) + $nomina->bonificacion, 2);
+                $salarioNeto = round(($nomina->salarioBruto - $isss - $afp - $renta), 2);
                 $totalDescuentos = round($isss + $afp + $renta, 2);
 
                 //Crear el pdf de la boleta de pago
@@ -439,11 +541,25 @@ class VistasAdminController extends Controller
                     'fechaEmision' => now()->toDateString()
                 ];
 
+                $numeroRandom = rand(10001, 99000);
                 $pdf = PDF::loadView('Nominas/formatoBoletaPago', $data);
-                $pdfPath = 'boletas_pago/boleta_' . $id . '.pdf';
+                $pdfPath = 'boletas_pago/boleta_' . $numeroRandom. '.pdf';
                 Storage::disk('public')->put($pdfPath, $pdf->output());
+                $ruta = Storage::url($pdfPath);
+                
 
                 $boletaPago->fechaRegistro = date('Y-m-d');
+                $boletaPago->empleado = $data['nombre'];
+                $boletaPago->cargo = $data['cargo'];
+                $boletaPago->salarioBruto = $data['salarioBruto'];
+                $boletaPago->afp = $data['afp'];
+                $boletaPago->isss = $data['isss'];
+                $boletaPago->renta = $data['renta'];
+                $boletaPago->totalDescuento = $data['totalDescuentos'];
+                $boletaPago->salarioNeto = $data['salarioNeto'];
+                $boletaPago->boleta = $ruta;
+
+                $boletaPago->save();
 
                 $generarBoleta = [
                     'nombre' => $nomina->nombreEmpleado,
@@ -461,7 +577,6 @@ class VistasAdminController extends Controller
                     'fecha2' => $nomina->fecha2,
                     'diasDescanso' => $nomina->diasDescanso,
                     'totalDescuentos' => $totalDescuentos
-
                 ];
 
                 return view('Nominas/verBoletaPago', [
@@ -470,12 +585,74 @@ class VistasAdminController extends Controller
                 
             }
 
+            public function verNominasMensuales(Request $fechasNominas){
+
+                $nominasMensuales = Nomina::select('idNomina', 'fecha1', 'fecha2', 'nombreEmpleado', 'cargo', 'salarioBruto', 'isss', 'afp', 'insa')
+                ->whereBetween('fecha1', [$fechasNominas->buscarNomina1, $fechasNominas->buscarNomina2])->get();
+                return view('Nominas/listaNominas', [
+
+                    'listaNominas' => $nominasMensuales,
+                    'fechaRango1' =>  $fechasNominas->buscarNomina1,
+                    'fechaRango2' =>  $fechasNominas->buscarNomina2
+                ]);
+
+            }
+
+            public function verNominaEmpleado($id){
+                
+                $nomina = Nomina::find($id);
+
+                return view('Nominas/verNominaEmpleado', [
+                    'nominaEmpleado' => $nomina
+                ]);
+            }
+
+            public function verBoletasMensuales(Request $fechasBoletas){
+
+                $boletasMensuales = BoletaPago::select('idBoleta', 'fechaRegistro', 'empleado', 'cargo', 'salarioBruto', 'afp', 'isss','renta', 'totalDescuento', 'salarioNeto')
+                ->whereBetween('fechaRegistro', [$fechasBoletas->buscarBoleta1, $fechasBoletas->buscarBoleta2])->get(); //
+                return view('Nominas/listaBoletas', [
+
+                    'listaBoletas' => $boletasMensuales,
+                    'fechaBoleta1' =>  $fechasBoletas->buscarBoleta1,
+                    'fechaBoleta2' =>  $fechasBoletas->buscarBoleta2
+                ]);
+
+            }
+
+            public function verArchivoBoleta($id)
+            {
+                $archivoBoleta = BoletaPago::find($id);
+                
+                if (!$archivoBoleta) {
+                    abort(404);
+                }
+            
+                // Se obtiene la ruta del archivo desde la base de datos
+                $pdfPath = $archivoBoleta->boleta;
+            
+                // Eliminar '/storage/' de la ruta para obtener la ruta relativa correcta
+                $pdfPath = str_replace('/storage/', '', $pdfPath);
+            
+                // Verifica si el archivo existe en el almacenamiento
+                if (!Storage::disk('public')->exists($pdfPath)) {
+                    abort(404);
+                }
+            
+                // Se accede al storage de Laravel para mostrar el archivo
+                $contenidoArchivo = Storage::disk('public')->get($pdfPath);
+            
+                // Devolver la respuesta con el contenido del archivo
+                return response($contenidoArchivo, 200)->header('Content-Type', 'application/pdf');
+            }
+
+
         //----------------------------------------------------------------
 
         //------- Funciones para las horas extra -------------------------
             public function vistaRegistroHorasExtra(){
 
-                $listaEmpleados = Empleado::all();
+                $listaEmpleados = Empleado::where('estado', 'activo')->get();
 
                 return view('Nominas/gestionHorasExtra', [
 
@@ -495,12 +672,25 @@ class VistasAdminController extends Controller
                 $trabajador = Empleado::with('cargo')->where('idEmpleado', $datosHorasExtra->empleadoHoraExtra)->first();;
                 $salario = $trabajador->cargo->salario;
 
-                $horasExtra->montoHorasExtra = ( ( ( ($salario/30) / 8) * 1.25 )* 2) * $horasExtra->totalHorasExtra;
+                $horasExtra->montoHorasExtra =round( ( ( ( ($salario/30) / 8) * 1.25 )* 2) * $horasExtra->totalHorasExtra, 2);
                 $horasExtra->save();
 
                 return back()->with('resGuardarHoraExtra', 'Las horas extras se han registrado correctamente');
     
             }
+
+            public function verHorasExtraEmpleado(Request $fechasHorasExtra){
+
+                $horasExtras = HorasExtra::whereBetween('fecha', [$fechasHorasExtra->horaExtraFecha1, $fechasHorasExtra->horaExtraFecha2])
+                ->with('empleados')->get();
+
+                return view('Nominas/vistasHorasExtra', [
+                    'listaHorasExtra' => $horasExtras,
+                    'fechaRango1' =>  $fechasHorasExtra->horaExtraFecha1,
+                    'fechaRango2' =>  $fechasHorasExtra->horaExtraFecha2
+                ]);
+            }
+
 
         //-----------------------------------------------------------------
 
@@ -508,7 +698,7 @@ class VistasAdminController extends Controller
 
             public function gestionAsuetos(){
 
-                $empleados = Empleado::all();
+                $empleados = Empleado::where('estado', 'activo')->get();
 
                 return view('Nominas/gestionAsuetos',[
 
@@ -538,6 +728,16 @@ class VistasAdminController extends Controller
                 return back()->with('resGuardarAsueto', 'Se ha registrado el asueto laborado para el empleado');
             }
 
+            public function listaAsuetoMensuales(Request $datosAsuetos){
+
+                $asuetos = Asuetos::whereBetween('fecha', [$datosAsuetos->fecha1Asueto, $datosAsuetos->fecha2Asueto])
+                ->with('empleado')->get();
+
+                return view('Nominas/vistaAsuetos', [
+                    'listaAsuetos' => $asuetos
+                ]);
+            }
+
 
         //----------------------------------------------------------------
         
@@ -549,7 +749,7 @@ class VistasAdminController extends Controller
         // ------- Funciones para las asistencias ------------------------
             public function gestionAsistencias(){
 
-                $asistenciaEmpleados = Empleado::with('cargo')->get();
+                $asistenciaEmpleados = Empleado::with('cargo')->where('estado', 'activo')->get();
 
                 return view('GestionHorariosTiempo/asistenciaEmpleado', [
                     'empleadosAsistencias' => $asistenciaEmpleados
@@ -566,10 +766,15 @@ class VistasAdminController extends Controller
                 $existeAsistencia = Asistencia::where('idEmpleado', $id)->where('fecha', $fechaActual)->exists();
 
                 if ($existeAsistencia) {
-
-                    return redirect()->route('nominaGestionAsistencia')->with('resErrorAsistencia', 'Ya se marcó asistencia.');
+                    // Si existe, buscar el tipo de día específico
+                    $asistencia = Asistencia::where('idEmpleado', $id)->where('fecha', $fechaActual)->first();
+                
+                    if ($asistencia->tipoDia == 'descanso') {
+                        return redirect()->route('nominaGestionAsistencia')->with('resErrorAsistencia', 'Este día es de descanso del trabajador, revise el calendario.');
+                    } else {
+                        return redirect()->route('nominaGestionAsistencia')->with('resErrorAsistencia', 'Ya se marcó asistencia.');
+                    }
                 }
-
 
                 $asistencia->idEmpleado = $id;
                 $asistencia->fecha = $fechaActual;
@@ -584,34 +789,31 @@ class VistasAdminController extends Controller
 
             public function gestionDescanso(){
 
-                $asistenciaEmpleados = Empleado::with('cargo')->get();
+                $empleadosDescansos = Empleado::select('idEmpleado', 'nombres', 'apellidos')
+                ->where('estado', 'activo')
+                ->get();
 
-                return view('GestionHorariosTiempo/diaDescanso', [
-                    'empleadosDescanso' => $asistenciaEmpleados
+                $diasDescanso = Asistencia::where('tipoDia', 'descanso')->get();
+
+                return view('GestionHorariosTiempo/gestionDescanso', [
+                    'empleadosDescanso' => $empleadosDescansos,
+                    'diasDescanso' => $diasDescanso
                 ]);
             }
 
-            public function marcarDescanso($id)
-            {
-                $asistencia = new Asistencia();
-                $fechaActual = date('Y-m-d');
+            public function registrarDescanso(Request $request){
 
-                // Verificar si ya existe una asistencia para el empleado en la fecha actual
-                $existeAsistencia = Asistencia::where('idEmpleado', $id)->where('fecha', $fechaActual)->exists();
+                $descanso = new Asistencia();
 
-                if ($existeAsistencia) {
+                $descanso->idEmpleado = $request->descansoEmpleado;
+                $descanso->fecha = $request->selectedDate;
+                $descanso->tipoDia = 'descanso';
+                $descanso->horaEntrada = '11:00:00';
+                $descanso->horaSalida = '20:00:00';
 
-                    return back()->with('resErrorDescanso', 'Ya se marcó el descanso.');
-                }
+                $descanso->save();
 
-
-                $asistencia->idEmpleado = $id;
-                $asistencia->fecha = $fechaActual;
-                $asistencia->tipoDia = 'descanso';
-
-                $asistencia->save();
-
-                return back()->with('resGuardarDescanso', 'Descanso guradado con éxito');
+                return back()->with('resGuardarDescanso', 'El descanso se ha registrado con exito');
             }
 
             public function toalDiasLaborados(Request $fechaDiasLaborados){
@@ -626,7 +828,7 @@ class VistasAdminController extends Controller
                     ->whereBetween('fecha', [$fechaInicio, $fechaFin])
                     ->groupBy('idEmpleado')
                     ->with(['empleado' => function($query) {
-                        $query->select('idEmpleado', 'nombres', 'apellidos');
+                        $query->select('idEmpleado', 'nombres', 'apellidos', 'estado');
                     }])
                     ->get();
 
@@ -645,7 +847,7 @@ class VistasAdminController extends Controller
         // ------- Funciones para las incapacidades ------------------------
             public function gestionIncacapacidades(){
 
-                $empleados = Empleado::all();
+                $empleados = Empleado::where('estado', 'activo')->get();
 
                 return view('GestionHorariosTiempo/gestionIncapacidades', [
 
@@ -663,6 +865,7 @@ class VistasAdminController extends Controller
                 $incapacidad->fechaRegistro = date('Y-m-d');
                 $incapacidad->fechaInicio = $datosIncapacidad->fechaInicioIcapaciadad;
                 $incapacidad->fechaFin = $datosIncapacidad->fechaFinIncapacidad;
+                $incapacidad->diasIncapacidad = $datosIncapacidad->diasIncapaciodad;
                 $incapacidad->motivo = $datosIncapacidad->motivoIncapacidad;
 
                 
@@ -684,7 +887,7 @@ class VistasAdminController extends Controller
         // ------- Funciones para las ausencias Jus e Injus ------------------------
             public function gestionAsenciasInjus(){
 
-                $empleadoAusencia = Empleado::all();
+                $empleadoAusencia = Empleado::where('estado', 'activo')->get();
 
                 return view('GestionHorariosTiempo/ausenciaInjs', [
 
@@ -707,7 +910,7 @@ class VistasAdminController extends Controller
 
             public function gestionAsenciasJus(){
 
-                $empleadoAuJus = Empleado::all();
+                $empleadoAuJus = Empleado::where('estado', 'activo')->get();
 
                 return view('GestionHorariosTiempo/ausenciaJus', [
 
@@ -750,7 +953,7 @@ class VistasAdminController extends Controller
 
             public function vistaRegistrarVacaciones(){
                 
-                $vacacionEmpleado = Empleado::all();
+                $vacacionEmpleado = Empleado::where('estado', 'activo')->get();
                 return view('GestionHorariosTiempo/asignarVacacion', [
                     'empleadoVacacion' => $vacacionEmpleado
                 ]);

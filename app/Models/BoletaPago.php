@@ -14,31 +14,17 @@ class BoletaPago extends Model
 
     protected $fillable = [
         'fechaRegistro',
-        'fechaIncorporacion',
-        'nombreEmpleado',
+        'empleado',
         'cargo',
-        'salarioCargo',
-        'periodoLaborado',
-        'diasLaborados',
-        'diasDescanso',
-        'metodoPago',
-        'cuentaPago',
-        'fechaPago',
-        'periodoVacaciones',
-        'cargoVacaciones',
-        'periodoIncapacidad',
-        'asistenciaJus',
-        'asistenciaInjus',
         'salarioBruto',
-        'isss',
         'afp',
+        'isss',
         'renta',
-        'totalDescuentos',
-        'bonoConcepto',
-        'bonificacion',
+        'otro',
+        'aguinaldo',
+        'totalDescuento',
         'salarioNeto',
-        'id_empleado',
-        'archivoBoleta'
+        'boleta', 
     ];
     
 }

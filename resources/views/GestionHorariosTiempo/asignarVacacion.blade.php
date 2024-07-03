@@ -13,7 +13,7 @@
         <form action="{{route('guardarVacaciones')}}" method="POST">
             @csrf
 
-            <div class="mb-3">
+            <div class="col-sm-4">
                 <label for="recipient-name" class="col-form-label">Empleado:</label>
                 <select name="vacacionEmpleado" class="form-select" aria-label="Default select example">
                     <option selected>Seleccione un empleado</option>
@@ -23,17 +23,17 @@
                 </select>
             </div>
 
-            <div class="mb-3">
+            <div class="col-sm-2">
                 <label for="recipient-name" class="col-form-label">Fecha de inicio de vacacion:</label>
                 <input type="date" class="form-control" name="vacacionInicio">
             </div>
             
-            <div class="mb-3">
+            <div class="col-sm-2">
                 <label for="recipient-name" class="col-form-label">Fecha fin de vacion:</label>
                 <input type="date" class="form-control" name="vacacionFin">
             </div>
 
-            <div class="col-sm-10">
+            <div class="col-sm-2">
                 <label for="exampleFormControlInput1" class="form-label">Total de días</label>
                 <input name="diasDeVacion" type="number" class="form-control" min="0">
             </div>

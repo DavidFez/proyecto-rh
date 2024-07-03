@@ -34,9 +34,16 @@
                         <td>{{$empleado->nombres}} {{$empleado->apellidos}}</td>
                         <td>{{$empleado->cargo->nombreCargo}}</td>
                         <td>$ {{$empleado->cargo->salario}}</td>
-                        <td>
+                        <td class="d-flex gap-2">
                             <a href="{{route('nominaVerDatosEmpleado', $empleado->idEmpleado)}}" class="btn btn-ver">Ver</a>
-                            <a href="#" class="btn btn-editar">Editar</a>
+                            <a href="{{route('editarDatosEmpleado', $empleado->idEmpleado)}}" class="btn btn-editar">Editar</a>
+
+                            <form class="formEliminarEmpleado" action="{{route('eliminarEmpleadoOrganizacion', $empleado->idEmpleado)}}" method="POST">
+                                @method('DELETE')
+                                @csrf
+                                <button type="submit" class="btn btn-danger">Eliminar </button>
+                            </form>
+                            
                         </td>
                     </tr>
 
@@ -63,6 +70,51 @@
         </script>  
     @endif
 
+    @if (Session::has('reEditEmpleado'))
+        <script>
+            Swal.fire({
+                title: "Informacion",
+                text: "{{ session('reEditEmpleado') }}",
+                icon: "success"
+            });
+        </script>  
+    @endif
+
+    @if (Session::has('resDesactivarEmpleado'))
+    <script>
+        Swal.fire({
+            title: "Informacion",
+            text: "{{ session('resDesactivarEmpleado') }}",
+            icon: "success"
+        });
+    </script>  
+@endif
+
+@endsection
+
+@section('jsVistasAdmin')
+
+    <script>
+
+        $('.formEliminarEmpleado').on('submit', function(e){
+            
+            e.preventDefault();
+            Swal.fire({
+                title: "¿Está seguro?",
+                text: "El empleado dejará de formar parte de la organización",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si, continuar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit()
+                } 
+            });
+        })
+
+    </script>
 @endsection
 
 

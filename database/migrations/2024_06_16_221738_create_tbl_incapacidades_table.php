@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('fechaRegistro');
             $table->date('fechaInicio');
             $table->date('fechaFin');
+            $table->integer('diasIncapacidad')->nullable();
             $table->string('motivo', 255);
             $table->text('constancia')->nullable(); // esto es para almacenar una ruta
             $table->timestamps();

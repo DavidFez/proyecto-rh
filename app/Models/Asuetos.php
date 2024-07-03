@@ -22,4 +22,8 @@ class Asuetos extends Model
         'totalAsueto'
     ];
 
+    public function empleado(){
+        return $this->belongsTo(Empleado::class, 'idEmpleado', 'idEmpleado');
+    }
+
 }

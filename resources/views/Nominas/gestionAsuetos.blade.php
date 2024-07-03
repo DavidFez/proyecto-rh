@@ -22,9 +22,9 @@
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
-                        <div class="modal-content">
+                        <div class="modal-content bg-secondary text-white">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Registro De Horas Extra</h1>
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Registro De Asueto</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
 
@@ -72,7 +72,7 @@
 
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Registrar Horas Extras</button>
+                                        <button type="submit" class="btn btn-primary">Registrar Asueto</button>
                                     </div>
 
                                 </form>
@@ -85,8 +85,41 @@
                 
             </div>
 
+        </div>
 
-            <div class="col-6">.col-6<br>En esta parte, algo más que se me ocurra</div>
+
+        <br>
+        <br>
+        <h2>Revisar Horas Extras Mensuales</h2>
+
+        <div class="col-12">
+            <div class="p-3 m-1"> <!--Padding y margin del texto-->           
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                        <th scope="col">Fecha Inicial</th>
+                        <th scope="col">Fecha Final</th>
+                        <th scope="col">Acción</th>
+                        </tr>
+                    </thead>
+                    <form method="POST" action="{{route('listAsuetos')}}">
+                        @csrf
+                        <tbody>
+                            <tr>
+                                <th scope="row">
+                                    <input name="fecha1Asueto" type="date" class="form-control" placeholder="Fecha Inicial" style="width: 200px;">
+                                </th>
+                                <td>
+                                    <input name="fecha2Asueto" type="date" class="form-control" placeholder="Fecha Final" style="width: 200px;">
+                                </td>
+                                <td>
+                                    <button type="submit" class="btn btn-secondary" id="btnGenerarInforme">Generar Informe</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </form>
+                </table>
+            </div>
         </div>
 
     </div>

@@ -31,7 +31,7 @@
                         <th scope="row">{{$numero}}</th>
                         <td>{{$prestacion->prestacion}}</td>
                         <td>{{$prestacion->tipoPrestacion}}</td>
-                        <td>% {{$prestacion->porcentaje}}</td>
+                        <td>{{$prestacion->porcentaje}} %</td>
                         <td>
                             <button class="btn btn-editar" data-bs-target="#exampleModalToggle{{$numero}}" data-bs-toggle="modal">Editar</button>
                         </td>
@@ -54,7 +54,7 @@
 
         <div class="modal fade" id="exampleModalToggle{{$contador}}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
+                <div class="modal-content bg-secondary text-white">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="exampleModalToggleLabel">AVISO</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -80,7 +80,7 @@
         
         <div class="modal fade" id="exampleModalToggle2-{{$contador}}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
+                <div class="modal-content bg-secondary text-white">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Editar Prestacion</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

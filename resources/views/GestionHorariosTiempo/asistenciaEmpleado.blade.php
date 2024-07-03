@@ -31,7 +31,7 @@
                         <th scope="row">{{$numero}}</th>
                         <td>{{$empleado->nombres}} {{$empleado->apellidos}}</td>
                         <td>{{$empleado->cargo->nombreCargo}}</td>
-                        <td>$ {{$empleado->telefono}}</td>
+                        <td>{{$empleado->telefono}}</td>
                         <td>
                             <a href="{{route('nominaMarcarAsistencia', $empleado->idEmpleado)}}" class="btn btn-primary">Marcar Asistencia</a>
                         </td>

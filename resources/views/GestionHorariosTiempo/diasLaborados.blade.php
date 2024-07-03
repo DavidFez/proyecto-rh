@@ -24,9 +24,13 @@
     
                 @foreach ($diasLaborados as $empleado)
                     <tr>
-                        <td>{{$numero}}</td>
-                        <td>{{ $empleado->empleado->nombres }} {{$empleado->empleado->apellidos}}</td>
-                        <td>{{ $empleado->totalDias }}</td>
+                        
+                        @if ($empleado->empleado->estado == 'activo')
+                            <td>{{$numero}}</td>
+                            <td>{{ $empleado->empleado->nombres }} {{$empleado->empleado->apellidos}}</td>
+                            <td>{{ $empleado->totalDias }}</td>
+                        @endif
+                            
                     </tr>
     
                     @php

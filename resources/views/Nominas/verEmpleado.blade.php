@@ -2,24 +2,107 @@
 @section('titulo', '- Datos Empleados')
 
 @section('contenido')
+    
+
+    
     <div class="container">
 
         <br>
         <h2>Datos del Empleado</h2>
         <hr>
-        @foreach ($datosVerEmpleado as $trabajador)
-            <h3>Nombre:</h3> <h5>{{$trabajador->nombres}} {{$trabajador->apellidos}}</h5>
-            <h3>Cargo:</h3> <h5>{{$trabajador->cargo->nombreCargo}}</h5>
-            <h3>Direccion:</h3> <h5>{{$trabajador->direccion}}</h5>
-            <h3>Fecha de nacimiento:</h3> <h5>{{$trabajador->fechaNacimiento}}</h5>
-            <h3>Telefono:</h3> <h5>{{$trabajador->telefono}}</h5>
-            <h3>Correo</h3> <h5>{{$trabajador->correo}}</h5>
-            <h3>DUI:</h3> <h5>{{$trabajador->dui}}</h5>
-            <h3>Fecha de inicio de actividades:</h3> <h5>{{$trabajador->fechaIncorporacion}}</h5>
-            <h3>Banco de deposito:</h3> <h5>{{$trabajador->banco}}</h5>
-            <h3>Cuenta de deposito:</h3> <h5>{{$trabajador->cuentaDeposito}}</h5>
-            
-        @endforeach
+
+
+        <div class="row">
+            <div class="col-4">
+                <h4>Nombre:</h4> 
+            </div>
+            <div class="col-6">
+                <h5>{{$datosVerEmpleado->nombres}} {{$datosVerEmpleado->apellidos}}</h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4">
+                <h4>Cargo:</h4> 
+            </div>
+            <div class="col-6">
+                <h5>{{$datosVerEmpleado->cargo->nombreCargo}}</h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4">
+                <h4>Direccion:</h4> 
+            </div>
+            <div class="col-6">
+                <h5>{{$datosVerEmpleado->direccion}}</h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4">
+                <h4>Fecha de nacimiento:</h4> 
+            </div>
+            <div class="col-6">
+                <h5>{{ date('d-m-Y', strtotime($datosVerEmpleado->fechaNacimiento)) }}</h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4">
+                <h4>Telefono:</h4> 
+            </div>
+            <div class="col-6">
+                <h5>{{$datosVerEmpleado->telefono}}</h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4">
+                <h4>Correo:</h4> 
+            </div>
+            <div class="col-6">
+                <h5>{{$datosVerEmpleado->correo}}</h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4">
+                <h4>DUI:</h4> 
+            </div>
+            <div class="col-6">
+                <h5>{{$datosVerEmpleado->dui}}</h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4">
+                <h4>Fecha de inicio de actividades:</h4> 
+            </div>
+            <div class="col-6">
+                <h5>{{ date('d-m-Y', strtotime($datosVerEmpleado->fechaIncorporacion)) }}</h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4">
+                <h4>Banco de deposito:</h4> 
+            </div>
+            <div class="col-6">
+                <h5>{{$datosVerEmpleado->banco}}</h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4">
+                <h4>Cuenta de deposito:</h4> 
+            </div>
+            <div class="col-6">
+                <h5>{{$datosVerEmpleado->cuentaDeposito}}</h5>
+            </div>
+        </div>
 
     </div>
+
+
 @endsection
