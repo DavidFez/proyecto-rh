@@ -9,29 +9,21 @@ class Empleado extends Model
 {
     use HasFactory;
 
-    protected $table = "tbl_empleado";
-
+    protected $table = 'tbl_empleado';
+    protected $primaryKey = 'idEmpleado';
     protected $fillable = [
-        'idCargo',
-        'nombres',
-        'apellidos',
-        'direccion',
-        'fechaNacimiento',
-        'telefono',
-        'correo',
-        'dui',
-        'fechaIncorporacion',
-        'cv',
-        'cuentaDeposito',
-        'banco'
+        'idCargo', 'nombres', 'apellidos', 'direccion', 'fechaNacimiento',
+        'telefono', 'correo', 'dui', 'fechaIncorporacion', 'cv', 'cuentaDeposito', 'banco'
     ];
 
-    public function cargo(){
-
-        return $this->belongsTo(Cargo::class, 'idCargo', 'idCargo');
+    public function cargo()
+    {
+        return $this->belongsTo(Cargo::class, 'idCargo');
     }
 
-    public function asistencia(){
-        return $this->hasMany(Asistencia::class, 'idEmpleado', 'idEmpleado');
+    public function expediente()
+    {
+        return $this->hasOne(Expediente::class, 'idEmpleado');
     }
 }
+

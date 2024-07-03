@@ -122,5 +122,17 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
+    
+    'aliases' => [
+        // Otros aliases
+        'PDF' => Barryvdh\DomPDF\Facade\Pdf::class,
+    ],
+
+
+    'aliases' => [
+    // Otros aliases
+    'Auth' => Illuminate\Support\Facades\Auth::class,
+    ],
+
 
 ];

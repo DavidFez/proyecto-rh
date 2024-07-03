@@ -26,6 +26,7 @@
                     <td class="d-flex justify-content-between">
                         <a href="{{ route('puestos.show', $puesto->idPuesto) }}" class="btn btn-primary btn-sm me-1">Ver</a>
                         <a href="{{ route('puestos.edit', $puesto->idPuesto) }}" class="btn btn-warning btn-sm me-1">Editar</a>
+                        <a href="{{ route('puestos.pdf', $puesto->idPuesto) }}" class="btn btn-info btn-sm me-1">PDF</a>
                         <form action="{{ route('puestos.destroy', $puesto->idPuesto) }}" method="POST">
                             @csrf
                             @method('DELETE')
